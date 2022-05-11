@@ -12,9 +12,10 @@ int main(int ac, char **av)
 {
 	FILE *fd_monty = 0;
 	size_t len = 0;
-	char *command = NULL, *clean = NULL, *final_cmd = NULL;
+	char *command = NULL;
+	char **tokens = NULL;
 
-	if (ac != 2)  /* if too many or more than one argument, then exit fail*/
+	if (ac != 2) /* if too many or more than one argument, then exit fail*/
 	{
 		dprintf(STDERR_FILENO, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
@@ -29,12 +30,9 @@ int main(int ac, char **av)
 
 	while (getline(&command, &len, fd_monty) != EOF)
 	{
-		if (strstr(command, "push") != NULL)
-			clean = get_cmd_params(command);
-		else
-			clean = get_cmd(command);
-		printf("%s\n", clean);
-		free(clean);
+		tokens = tokenizer(command);
+		print_tokens(tokens);
+		free_tokens(tokens);
 		free(command);
 		len = 0;
 	}

@@ -61,8 +61,9 @@ extern global_t global;
 char *str_concat(char *s1, char *s2);
 
 /*Clean*/
-char *get_cmd(char *command);
-char *get_cmd_params(char *command);
+int total_malloc(char *command);
+void free_tokens(char **tokens);
+char **tokenizer(char *input);
 
 /*Opcodes*/
 void push(stack_t **stack, unsigned int line_number);
