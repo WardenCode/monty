@@ -40,19 +40,22 @@ typedef struct instruction_s
 
 /**
  * struct global_s - Struct for a global variable
- * @value: integer in the new node.
+ * @tokens: Tokens of command.
+ * @stack: Pointer to the stack.
  * @fd_monty: File Descriptor of the Monty file.
  * @command: Pointer to a line of the Monty file.
+ * @line_num: Number of line of the Monty file.
  *
  * Description: This struct is for free the command
  * and close the Monty File
  */
-
 typedef struct global_s
 {
-	int value;
+	char **tokens;
+	stack_t *stack;
 	FILE *fd_monty;
 	char *command;
+	int line_num;
 } global_t;
 
 extern global_t global;
@@ -60,11 +63,24 @@ extern global_t global;
 /*Utils*/
 char *str_concat(char *s1, char *s2);
 void print_tokens(char **tokens);
+int is_a_num(char *n);
 
 /*Clean*/
 int total_malloc(char *command);
 void free_tokens(char **tokens);
+int _isdigit(int c);
 char **tokenizer(char *input);
+void free_cases(int flag);
+
+/*Core*/
+size_t print_dlistint(const stack_t *h);
+stack_t *add_dnodeint(stack_t **head, const int n);
+stack_t *add_dnodeint_end(stack_t **head, const int n);
+void free_dlistint(stack_t *head);
+/*stack_t *get_dnodeint_at_index(stack_t *head, unsigned int index);*/
+/*int sum_dlistint(stack_t *head);*/
+stack_t *insert_dnodeint_at_index(stack_t **h, unsigned int idx, int n);
+int delete_dnodeint_at_index(stack_t **head, unsigned int index);
 
 /*Opcodes*/
 void push(stack_t **stack, unsigned int line_number);
