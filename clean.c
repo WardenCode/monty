@@ -46,7 +46,7 @@ void free_tokens(char **tokens)
 }
 
 /**
- * tokenize - Takes the input and tokenize command and arguments.
+ * tokenizer - Takes the input and tokenize command and arguments.
  *
  * @input: Input of the getline (with a command and parameters).
  *
@@ -71,4 +71,34 @@ char **tokenizer(char *input)
 	}
 	tokens[i] = NULL;
 	return (tokens);
+}
+
+/**
+ * free_cases - Multiple options to free in Monty.
+ *
+ * @flag: Flag to choose what free use.
+ *
+ * Return: Void.
+ */
+
+void free_cases(int flag)
+{
+	if (flag == 1)
+	{
+		free(global.command);
+		free_dlistint(global.stack);
+		fclose(global.fd_monty);
+	}
+	else if (flag == 2)
+	{
+		free_tokens(global.tokens);
+		free(global.command);
+	}
+	else
+	{
+		free(global.command);
+		free_tokens(global.tokens);
+		free_dlistint(global.stack);
+		fclose(global.fd_monty);
+	}
 }

@@ -1,5 +1,7 @@
 #include "monty.h"
 
+global_t global = {NULL, NULL, NULL, NULL, 1};
+
 /**
  * pall - Print a stack.
  *
@@ -14,11 +16,8 @@ void pall(stack_t **stack, unsigned int line_number)
 {
 	(void)line_number;
 
-	while (stack && *stack)
-	{
-		printf("%d\n", (*stack)->n);
-		*stack = (*stack)->next;
-	}
+	if (*stack)
+		print_dlistint(*stack);
 }
 
 /**
@@ -34,71 +33,70 @@ void pall(stack_t **stack, unsigned int line_number)
 void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new_node = NULL;
+	int num = 0;
 
-/*	if (!(*stack))
-		return (NULL);*/
-
-	new_node = malloc(sizeof(stack_t));
-	/*if (!new_node)
-		return (NULL);*/
-
-	new_node->prev = NULL;
-	new_node->n = 5;
-
-	if (*stack)
+	if (global.tokens[1] == NULL)
 	{
-		new_node->next = *stack;
-		(*stack)->prev = new_node;
+		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_number);
+		free_cases(0);
+		exit(EXIT_FAILURE);
 	}
 
-	*stack = new_node;
+	if (is_a_num(global.tokens[1]))
+	{
+		num = atoi(global.tokens[1]);
+		new_node = add_dnodeint_end(stack, num);
+	}
+	else
+	{
+		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_number);
+		free_cases(0);
+		exit(EXIT_FAILURE);
+	}
 }
 
 /**
  * choose_option - Find if the flag match with an existence and
  * give the correct function.
  *
- * @s: Character to pass
+ * @tokens: Double pointer to the tokens of the command.
  *
  * Return: A print_operation struct with a flag (0 or 1
  * and a function pointer or NULL.
  */
-
-instruction_t choose_option(char **tokens) {
-	instruction_t result = {"", NULL};
+void (*choose_option(char **tokens))(stack_t **, unsigned int)
+{
 	instruction_t options[] = {
 		{"push", push},
 		{"pall", pall},
-		/*{"pint", pint},
-		{"pop", pop},
-		{"swap", swap},
-		{"add", add},
-		{"nop", nop},
-		{"sub", sub},
-		{"div", div},
-		{"mul", mul},
-		{"mod", mod},
-		{"pchar", pchar},
-		{"pstr", pstr},
-		{"rotl", rotl},
-		{"rotr", rotr},
-		{"stack", stack},
-		{"queue", queue},*/
-		{"", NULL}
+		/*
+		 *{"pint", pint},
+		 *{"pop", pop},
+		 *{"swap", swap},
+		 *{"add", add},
+		 *{"nop", nop},
+		 *{"sub", sub},
+		 *{"div", div},
+		 *{"mul", mul},
+		 *{"mod", mod},
+		 *{"pchar", pchar},
+		 *{"pstr", pstr},
+		 *{"rotl", rotl},
+		 *{"rotr", rotr},
+		 *{"stack", stack},
+		 *{"queue", queue},
+		*/
+		{NULL, NULL}
 	};
 	int i = 0;
 
 	while (options[i].opcode)
 	{
 		if (strcmp(options[i].opcode, tokens[0]) == 0)
-		{
-			result.opcode = tokens[0];
-			result.f = options->f;
-			return (result);
-		}
+			return (options[i].f);
 		i++;
 	}
-	return (result);
+	return (NULL);
 }
 
 /**
@@ -111,42 +109,38 @@ instruction_t choose_option(char **tokens) {
 
 int main(int ac, char **av)
 {
-	stack_t **stack = NULL;
-	unsigned int line_number = 1;
-	FILE *fd_monty = 0;
 	size_t len = 0;
-	char *command = NULL;
-	char **tokens = NULL;
-	instruction_t option = {};
+	void (*op_func)(stack_t **, unsigned int);
 
-	if (ac != 2) /* if too many or more than one argument, then exit fail*/
+	if (ac != 2)
 	{
 		dprintf(STDERR_FILENO, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
 
-	fd_monty = fopen(av[1], "r");
-	if (fd_monty->_fileno == -1)  /*If file can't open then exit fail*/
+	global.fd_monty = fopen(av[1], "r");
+	if (global.fd_monty->_fileno < 0)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", av[1]);
 		exit(EXIT_FAILURE);
 	}
 
-	while (getline(&command, &len, fd_monty) != EOF)
+	while (getline(&global.command, &len, global.fd_monty) != EOF)
 	{
-		tokens = tokenizer(command);
-		// print_tokens(tokens);
-		option = choose_option(tokens);
-		if (strcmp(option.opcode, "") != 0)
-			option.f(stack, line_number);
-		else
-			printf("error");
-		free_tokens(tokens);
-		free(command);
+		global.tokens = tokenizer(global.command);
+		op_func = choose_option(global.tokens);
+		if (op_func == NULL)
+		{
+			dprintf(STDERR_FILENO, "L%u: unknown instruction %s\n",
+					global.line_num, global.tokens[0]);
+			free_cases(0);
+			exit(EXIT_FAILURE);
+		}
+		op_func(&global.stack, global.line_num);
+		free_cases(2);
+		global.line_num++;
 		len = 0;
-		line_number++;
 	}
-	free(command);
-	fclose(fd_monty);
+	free_cases(1);
 	return (0);
 }
