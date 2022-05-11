@@ -59,6 +59,7 @@ extern global_t global;
 
 /*Utils*/
 char *str_concat(char *s1, char *s2);
+void print_tokens(char **tokens);
 
 /*Clean*/
 int total_malloc(char *command);

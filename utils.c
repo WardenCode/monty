@@ -33,3 +33,21 @@ char *str_concat(char *s1, char *s2)
 
 	return (final_str);
 }
+
+/**
+ * print_tokens - Print the tokens of a double pointer
+ *
+ * @tokens: Double pointer to the tokens
+ *
+ * Return: Void
+ */
+
+void print_tokens(char **tokens)
+{
+	int i = 0;
+
+	while (tokens[i])
+		printf("%s ", tokens[i]), i++;
+
+	printf("\n");
+}

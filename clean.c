@@ -1,92 +1,74 @@
 #include "monty.h"
 
 /**
- * get_cmd - Get the cmd without params
+ * total_malloc - Calculate the spaces and tabs to calculate
+ * the malloc's quantity to use.
  *
- * @command: Input of the file (command).
+ * @command: Command to analyze.
  *
- * Return: Final command
+ * Return: The malloc's quantity to use.
  */
 
-char *get_cmd(char *command)
+int total_malloc(char *command)
 {
-	int i = 0, counter = 0, flag = 1, j = 0;
-	char *cmd = NULL;
+	int i = 0, counter = 0, flag = 0;
 
-	while (command[i])
+	while (command[i] != '\0')
 	{
-		if (command[i] == ' ' && flag)
-		{
-			i++;
-			continue;
-		}
-		flag = 0;
-		if (command[i] == ' ' || command[i] == '\n')
-			break;
-		counter++;
+		if (command[i] != ' ' && command[i] != '\t')
+			flag = 1;
+
+		if ((command[i] == ' ' || command[i] == '\t') && flag == 1)
+			counter++;
 		i++;
 	}
-
-	cmd = malloc((counter + 1) * sizeof(char));
-	if (!cmd)
-	{
-		dprintf(STDERR_FILENO, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
-	cmd[counter] = '\0';
-	while (counter != 0)
-	{
-		cmd[j] = command[i - counter];
-		j++;
-		counter--;
-	}
-	return (cmd);
+	return (counter + 2);
 }
 
 /**
- * get_cmd_params - Get the cmd params object
+ * free_tokens - Free a double pointer that contains tokens of a command.
  *
- * @command: Input of the file (pre_command).
+ * @tokens: Double pointer with the information of the command.
  *
- * Return: Final command
+ * Return: Void
  */
 
-char *get_cmd_params(char *command)
+void free_tokens(char **tokens)
 {
-	int i = 0, counter = 0, flag = 1, j = 0;
-	char *cmd = NULL, *number = NULL, *final = NULL;
+	int i = 0;
 
-	while (command[i])
+	while (tokens[i])
 	{
-		if (command[i] == ' ' && flag)
-		{
-			i++;
-			continue;
-		}
-		flag = 0;
-		if (command[i] == ' ' || command[i] == '\n')
-			break;
-		counter++;
+		free(tokens[i]);
 		i++;
 	}
+	free(tokens);
+}
 
-	cmd = malloc((counter + 1) * sizeof(char));
-	if (!cmd)
-	{
-		dprintf(STDERR_FILENO, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
-	cmd[counter] = '\0';
-	while (counter != 0)
-	{
-		cmd[j] = command[i - counter];
-		j++;
-		counter--;
-	}
+/**
+ * tokenize - Takes the input and tokenize command and arguments.
+ *
+ * @input: Input of the getline (with a command and parameters).
+ *
+ * Return: A structure with the tokens and a holder to free later.
+ */
 
-	number = get_cmd(&command[i]);
-	final = str_concat(cmd, number);
-	free(cmd);
-	free(number);
-	return (final);
+char **tokenizer(char *input)
+{
+	char **tokens = NULL, *token = NULL;
+	int spaces = total_malloc(input), i = 0;
+
+	tokens = malloc(sizeof(char *) * (spaces));
+	if (!tokens)
+		return (NULL);
+
+	token = strtok(input, " \n\t");
+	while (token != NULL)
+	{
+		tokens[i] = strdup(token);
+		token = strtok(NULL, " \n\t");
+		i++;
+	}
+	tokens[i] = NULL;
+	return (tokens);
 }
