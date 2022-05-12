@@ -67,13 +67,14 @@ char *str_concat(char *s1, char *s2);
 void print_tokens(char **tokens);
 int is_a_num(char *n);
 int all_spaces(char *command, ssize_t size);
+int _isdigit(int c);
 
 /*Clean*/
 int total_malloc(char *command);
 void free_tokens(char **tokens);
-int _isdigit(int c);
 char **tokenizer(char *input);
 void free_cases(int flag);
+int is_comment(char *str);
 
 /*Core*/
 size_t print_dlistint(stack_t *h);
