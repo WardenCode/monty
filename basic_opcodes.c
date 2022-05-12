@@ -29,7 +29,7 @@ void pall(stack_t **stack, unsigned int line_number)
 
 void push(stack_t **stack, unsigned int line_number)
 {
-	/*stack_t *new_node = NULL;*/
+	stack_t *new_node = NULL;
 	int num = 0;
 
 	if (global.tokens[1] == NULL)
@@ -42,16 +42,13 @@ void push(stack_t **stack, unsigned int line_number)
 	if (is_a_num(global.tokens[1]))
 	{
 		num = atoi(global.tokens[1]);
-		/*new_node = */
-		add_dnodeint_end(stack, num);
-		/*
-		 *if (!new_node)
-		 * {
-		 * dprintf(STDERR_FILENO, "Error: malloc failed\n");
-		 *free_cases(0);
-		 *exit(EXIT_FAILURE);
-		 *}
-		 */
+		new_node = add_dnodeint_end(stack, num);
+		if (!new_node)
+		{
+			dprintf(STDERR_FILENO, "Error: malloc failed\n");
+			free_cases(0);
+			exit(EXIT_FAILURE);
+		}
 		global.quantity++;
 	}
 	else
