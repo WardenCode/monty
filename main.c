@@ -25,8 +25,8 @@ void (*choose_option(char **tokens))(stack_t **, unsigned int)
 		{"div", _div},
 		{"mul", mul},
 		{"mod", mod},
+		{"pchar", pchar},
 		/*
-		 *{"pchar", pchar},
 		 *{"pstr", pstr},
 		 *{"rotl", rotl},
 		 *{"rotr", rotr},
@@ -74,7 +74,7 @@ int main(int ac, char **av)
 	global.fd_monty = fopen(av[1], "r");
 	while (getline(&global.command, &len, global.fd_monty) != EOF)
 	{
-		if (global.command[0] == '\n' || global.command[0] == '#' ||
+		if (global.command[0] == '\n' || is_comment(global.command) ||
 			all_spaces(global.command, strlen(global.command)))
 		{
 			global.line_num++, len = 0;
