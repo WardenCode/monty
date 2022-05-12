@@ -1,59 +1,6 @@
 #include "monty.h"
 
-global_t global = {NULL, NULL, NULL, NULL, 1};
-
-/**
- * pall - Print a stack.
- *
- * @stack: Double pointer to the stack.
- *
- * @line_number: Number of line of the monty file.
- *
- * Return: Void.
- */
-
-void pall(stack_t **stack, unsigned int line_number)
-{
-	(void)line_number;
-
-	if (*stack)
-		print_dlistint(*stack);
-}
-
-/**
- * push - Add a node at the head of the linked list.
- *
- * @stack: Double pointer to the stack.
- *
- * @line_number: Number of line of the monty file.
- *
- * Return: Void.
- */
-
-void push(stack_t **stack, unsigned int line_number)
-{
-	stack_t *new_node = NULL;
-	int num = 0;
-
-	if (global.tokens[1] == NULL)
-	{
-		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_number);
-		free_cases(0);
-		exit(EXIT_FAILURE);
-	}
-
-	if (is_a_num(global.tokens[1]))
-	{
-		num = atoi(global.tokens[1]);
-		new_node = add_dnodeint_end(stack, num);
-	}
-	else
-	{
-		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_number);
-		free_cases(0);
-		exit(EXIT_FAILURE);
-	}
-}
+global_t global = {NULL, NULL, NULL, NULL, 1, -1};
 
 /**
  * choose_option - Find if the flag match with an existence and
@@ -69,14 +16,14 @@ void (*choose_option(char **tokens))(stack_t **, unsigned int)
 	instruction_t options[] = {
 		{"push", push},
 		{"pall", pall},
+		{"pint", pint},
+		{"pop", pop},
+		{"nop", nop},
+		{"swap", swap},
+		{"add", add},
+		{"sub", sub},
+		{"div", _div},
 		/*
-		 *{"pint", pint},
-		 *{"pop", pop},
-		 *{"swap", swap},
-		 *{"add", add},
-		 *{"nop", nop},
-		 *{"sub", sub},
-		 *{"div", div},
 		 *{"mul", mul},
 		 *{"mod", mod},
 		 *{"pchar", pchar},
@@ -127,6 +74,12 @@ int main(int ac, char **av)
 
 	while (getline(&global.command, &len, global.fd_monty) != EOF)
 	{
+		if (global.command[0] == '\n')
+		{
+			global.line_num++, len = 0;
+			free(global.command);
+			continue;
+		}
 		global.tokens = tokenizer(global.command);
 		op_func = choose_option(global.tokens);
 		if (op_func == NULL)
