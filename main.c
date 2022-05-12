@@ -28,8 +28,8 @@ void (*choose_option(char **tokens))(stack_t **, unsigned int)
 		{"pchar", pchar},
 		{"pstr", pstr},
 		{"rotl", rotl},
+		{"rotr", rotr},
 		/*
-		 *{"rotr", rotr},
 		 *{"stack", stack},
 		 *{"queue", queue},
 		*/
