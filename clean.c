@@ -61,7 +61,7 @@ char **tokenizer(char *input)
 	tokens = malloc(sizeof(char *) * (spaces));
 	if (!tokens)
 	{
-		dprinf(STDERR_FILENO, "Error: malloc failed\n");
+		dprintf(STDERR_FILENO, "Error: malloc failed\n");
 		free(global.command);
 		free_dlistint(global.stack);
 		fclose(global.fd_monty);
