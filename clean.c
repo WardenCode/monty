@@ -62,9 +62,10 @@ char **tokenizer(char *input)
 	if (!tokens)
 	{
 		dprintf(STDERR_FILENO, "Error: malloc failed\n");
-		free(global.command);
-		free_dlistint(global.stack);
-		fclose(global.fd_monty);
+		/*free(global.command);*/
+		/*free_dlistint(global.stack);*/
+		/*fclose(global.fd_monty);*/
+		free_cases(0);
 		exit(EXIT_FAILURE);
 	}
 
