@@ -30,7 +30,7 @@ stack_t *insert_dnodeint_at_index(stack_t **h, unsigned int idx, int n)
 
 	new_node = malloc(sizeof(stack_t));
 	if (!new_node)
-		return(NULL);
+		return (NULL);
 
 	new_node->n = n;
 
