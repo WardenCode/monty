@@ -21,7 +21,11 @@ char *str_concat(char *s1, char *s2)
 	total_size = size1 + size2 + 1;
 	final_str = malloc(total_size * sizeof(char));
 	if (!final_str)
-		return (NULL);
+	{
+		dprintf(STDERR_FILENO, "Error: malloc failed\n");
+		free_cases(0);
+		exit(EXIT_FAILURE);
+	}
 
 	for (i = 0; i < total_size; i++)
 	{
