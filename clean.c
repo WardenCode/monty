@@ -60,14 +60,7 @@ char **tokenizer(char *input)
 
 	tokens = malloc(sizeof(char *) * (spaces));
 	if (!tokens)
-	{
-		dprintf(STDERR_FILENO, "Error: malloc failed\n");
-		/*free(global.command);*/
-		/*free_dlistint(global.stack);*/
-		/*fclose(global.fd_monty);*/
-		free_cases(0);
-		exit(EXIT_FAILURE);
-	}
+		return (NULL);
 
 	token = strtok(input, " \n\t");
 	while (token != NULL)
