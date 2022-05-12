@@ -45,6 +45,7 @@ typedef struct instruction_s
  * @fd_monty: File Descriptor of the Monty file.
  * @command: Pointer to a line of the Monty file.
  * @line_num: Number of line of the Monty file.
+ * @quantity: Cuantity of nodes.
  *
  * Description: This struct is for free the command
  * and close the Monty File
@@ -55,7 +56,8 @@ typedef struct global_s
 	stack_t *stack;
 	FILE *fd_monty;
 	char *command;
-	int line_num;
+	unsigned int line_num;
+	int quantity;
 } global_t;
 
 extern global_t global;
@@ -73,7 +75,7 @@ char **tokenizer(char *input);
 void free_cases(int flag);
 
 /*Core*/
-size_t print_dlistint(const stack_t *h);
+size_t print_dlistint(stack_t *h);
 stack_t *add_dnodeint(stack_t **head, const int n);
 stack_t *add_dnodeint_end(stack_t **head, const int n);
 void free_dlistint(stack_t *head);
@@ -91,7 +93,7 @@ void swap(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
 void sub(stack_t **stack, unsigned int line_number);
-/* void div(stack_t **stack, unsigned int line_number); */
+void _div(stack_t **stack, unsigned int line_number);
 void mul(stack_t **stack, unsigned int line_number);
 void mod(stack_t **stack, unsigned int line_number);
 void pchar(stack_t **stack, unsigned int line_number);
