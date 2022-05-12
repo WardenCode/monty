@@ -11,6 +11,7 @@
 void pstr(stack_t **stack, unsigned int line_number)
 {
 	stack_t *tmp = *stack;
+	(void)line_number;
 
 	if (*stack && global.quantity >= 0)
 	{
@@ -19,24 +20,11 @@ void pstr(stack_t **stack, unsigned int line_number)
 
 		while (tmp->prev != NULL)
 		{
-			if (tmp->n > 127 || tmp->n < 0)
-			{
-				dprintf(STDERR_FILENO, "L%u: can't pstr, value out of range\n",
-						line_number);
-				free_cases(0);
-				exit(EXIT_FAILURE);
-			}
-			if (tmp->n == 0)
+			if (tmp->n > 127 || tmp->n <= 0)
 				break;
 			printf("%c", tmp->n);
 			tmp = tmp->prev;
 		}
-		putchar('\n');
 	}
-	else
-	{
-		dprintf(STDERR_FILENO, "L%u: can't pstr, stack empty\n", line_number);
-		free_cases(0);
-		exit(EXIT_FAILURE);
-	}
+	putchar('\n');
 }
