@@ -142,7 +142,7 @@ void pchar(stack_t **stack, unsigned int line_number)
 {
 	stack_t *tmp = *stack;
 
-	if (*stack && global.quantity >= 1)
+	if (*stack && global.quantity >= 0)
 	{
 		while (tmp->next != NULL)
 			tmp = tmp->next;
