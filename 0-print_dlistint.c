@@ -8,13 +8,19 @@
  * Return: Number of nodes
  */
 
-size_t print_dlistint(const stack_t *h)
+size_t print_dlistint(stack_t *h)
 {
-	if (h)
-	{
-		printf("%d\n", h->n);
-		return (1 + print_dlistint(h->next));
-	}
+	stack_t *tmp = h;
 
+	while (tmp->next != NULL)
+	{
+		tmp = tmp->next;
+	}
+	printf("%d\n", tmp->n);
+	while (tmp->prev != NULL)
+	{
+		tmp = tmp->prev;
+		printf("%d\n", tmp->n);
+	}
 	return (0);
 }
