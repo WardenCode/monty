@@ -28,3 +28,26 @@ void pstr(stack_t **stack, unsigned int line_number)
 	}
 	putchar('\n');
 }
+
+/**
+ * rotl - rotates the stack to the top.
+ * @stack: Double pointer to stack.
+ * @line_number: Number of line of the monty file.
+ *
+ * Return: void
+ */
+
+void rotl(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp = *stack;
+	int final = 0;
+
+	if (*stack && global.quantity > 0)
+	{
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		final = tmp->n;
+		pop(stack, line_number);
+		add_dnodeint(stack, final);
+	}
+}
