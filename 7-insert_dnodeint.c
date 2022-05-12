@@ -31,9 +31,9 @@ stack_t *insert_dnodeint_at_index(stack_t **h, unsigned int idx, int n)
 	new_node = malloc(sizeof(stack_t));
 	if (!new_node)
 	{
-			dprintf(STDERR_FILENO, "Error: malloc failed\n");
-			free_cases(0);
-			exit(EXIT_FAILURE);
+		dprintf(STDERR_FILENO, "Error: malloc failed\n");
+		free_cases(0);
+		exit(EXIT_FAILURE);
 	}
 	/*
 	 *if (!new_node)
