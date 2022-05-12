@@ -65,13 +65,13 @@ int main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 
-	global.fd_monty = fopen(av[1], "r");
-	if (global.fd_monty->_fileno < 0)
+	if (access(av[1], R_OK) == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", av[1]);
 		exit(EXIT_FAILURE);
 	}
 
+	global.fd_monty = fopen(av[1], "r");
 	while (getline(&global.command, &len, global.fd_monty) != EOF)
 	{
 		if (global.command[0] == '\n' ||
@@ -95,5 +95,5 @@ int main(int ac, char **av)
 		global.line_num++, len = 0;
 	}
 	free_cases(1);
-	return (0);
+	return (EXIT_SUCCESS);
 }
