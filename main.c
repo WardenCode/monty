@@ -61,11 +61,13 @@ int main(int ac, char **av)
 
 	if (ac != 2)
 		dprintf(STDERR_FILENO, "USAGE: monty file\n"), exit(EXIT_FAILURE);
+
 	if (access(av[1], R_OK) == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", av[1]);
 		exit(EXIT_FAILURE);
 	}
+
 	global.fd_monty = fopen(av[1], "r");
 	while (getline(&global.command, &len, global.fd_monty) != EOF)
 	{
@@ -79,10 +81,8 @@ int main(int ac, char **av)
 		if (!global.tokens)
 		{
 			dprintf(STDERR_FILENO, "Error: malloc failed\n");
-			/*free(global.command);*/
-			/*free_dlistint(global.stack);*/
-			/*fclose(global.fd_monty);*/
-			free_cases(0), exit(EXIT_FAILURE);
+			free_cases(1);
+			exit(EXIT_FAILURE);
 		}
 		op_func = choose_option(global.tokens);
 		if (op_func == NULL)
