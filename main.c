@@ -74,7 +74,8 @@ int main(int ac, char **av)
 
 	while (getline(&global.command, &len, global.fd_monty) != EOF)
 	{
-		if (global.command[0] == '\n')
+		if (global.command[0] == '\n' ||
+			all_spaces(global.command, strlen(global.command)))
 		{
 			global.line_num++, len = 0;
 			free(global.command);
@@ -91,8 +92,7 @@ int main(int ac, char **av)
 		}
 		op_func(&global.stack, global.line_num);
 		free_cases(2);
-		global.line_num++;
-		len = 0;
+		global.line_num++, len = 0;
 	}
 	free_cases(1);
 	return (0);
