@@ -108,3 +108,24 @@ void free_cases(int flag)
 		fclose(global.fd_monty);
 	}
 }
+
+/**
+ * is_comment - Validate if the input is a comment.
+ *
+ * @str: String to analyse.
+ *
+ * Return: 1 if is a comment, 0 otherwise.
+ */
+
+int is_comment(char *str)
+{
+	size_t i = 0;
+
+	while (str[i] && str[i] != '#')
+		i++;
+
+	if (i == strlen(str))
+		return (0);
+
+	return (1);
+}
