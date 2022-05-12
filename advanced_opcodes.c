@@ -1,7 +1,8 @@
 #include "monty.h"
 
 /**
- * sub - subtracts the top element of the stack from the second top element of the stack.
+ * sub - subtracts the top element of the stack
+ * from the second top element of the stack.
  * @stack: Double pointer to stack.
  * @line_number: Number of line of the monty file.
  *
@@ -44,17 +45,17 @@ void _div(stack_t **stack, unsigned int line_number)
 	{
 		while (tmp->next != NULL)
 			tmp = tmp->next;
-        if(tmp->n == 0)
-        {
-            dprintf(STDERR_FILENO, "L%u: division by zero\n", line_number);
-            free_cases(0);
-            exit(EXIT_FAILURE);
-        }
-        else
-        {
-            tmp->prev->n /= tmp->n;
-		    pop(stack, line_number);
-        }
+		if (tmp->n == 0)
+		{
+			dprintf(STDERR_FILENO, "L%u: division by zero\n", line_number);
+			free_cases(0);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			tmp->prev->n /= tmp->n;
+			pop(stack, line_number);
+		}
 	}
 	else
 	{
