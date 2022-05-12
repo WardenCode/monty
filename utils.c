@@ -89,3 +89,28 @@ int is_a_num(char *n)
 	}
 	return (1);
 }
+
+/**
+ * all_spaces - Validate if the command of input is composed by spaces.
+ *
+ * @command: Command to go through
+ *
+ * @size: The size of the command (input)
+ *
+ * Return: Flag with the value of the search, 1 if only found spaces, \n and \t
+ * 0 otherwise.
+ */
+
+int all_spaces(char *command, ssize_t size)
+{
+	ssize_t i = 0, flag = 1;
+
+	while (command[i] == ' ' || command[i] == '\t' ||
+	       command[i] == '\n')
+		i++;
+
+	if (i != size)
+		flag = 0;
+
+	return (flag);
+}
