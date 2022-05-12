@@ -51,3 +51,25 @@ void rotl(stack_t **stack, unsigned int line_number)
 		add_dnodeint(stack, final);
 	}
 }
+
+/**
+ * rotr - rotates the stack to the bottom.
+ * @stack: Double pointer to stack.
+ * @line_number: Number of line of the monty file.
+ *
+ * Return: void
+ */
+
+void rotr(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp = *stack;
+	int first = 0;
+	(void)line_number;
+
+	if (*stack && global.quantity > 0)
+	{
+		first = tmp->n;
+		delete_dnodeint_at_index(stack, 0);
+		add_dnodeint_end(stack, first);
+	}
+}
