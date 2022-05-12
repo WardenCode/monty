@@ -66,6 +66,7 @@ extern global_t global;
 char *str_concat(char *s1, char *s2);
 void print_tokens(char **tokens);
 int is_a_num(char *n);
+int all_spaces(char *command, ssize_t size);
 
 /*Clean*/
 int total_malloc(char *command);
