@@ -12,9 +12,7 @@ void free_dlistint(stack_t *head)
 {
 	if (head)
 	{
-		if (head->next)
-			free_dlistint(head->next);
-
+		free_dlistint(head->next);
 		free(head);
 	}
 }
