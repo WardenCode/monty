@@ -74,3 +74,35 @@ void rotr(stack_t **stack, unsigned int line_number)
 		add_dnodeint_end(stack, first);
 	}
 }
+
+/**
+ * stack - Changes the mode to stack
+ * @stack: Double pointer to stack.
+ * @line_number: Number of line of the monty file.
+ *
+ * Return: void
+ */
+
+void stack(stack_t **stack, unsigned int line_number)
+{
+	(void)stack;
+	(void)line_number;
+
+	global.is_stack = 1;
+}
+
+/**
+ * queue - CHanges the mode to queue.
+ * @stack: Double pointer to stack.
+ * @line_number: Number of line of the monty file.
+ *
+ * Return: void
+ */
+
+void queue(stack_t **stack, unsigned int line_number)
+{
+	(void)stack;
+	(void)line_number;
+
+	global.is_stack = 0;
+}

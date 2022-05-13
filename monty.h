@@ -47,6 +47,7 @@ typedef struct instruction_s
  * @command: Pointer to a line of the Monty file.
  * @line_num: Number of line of the Monty file.
  * @quantity: Cuantity of nodes.
+ * @is_stack: Flag to identify if the mode is stack or queue.
  *
  * Description: This struct is for free the command
  * and close the Monty File
@@ -59,6 +60,7 @@ typedef struct global_s
 	char *command;
 	unsigned int line_num;
 	int quantity;
+	int is_stack;
 } global_t;
 
 extern global_t global;

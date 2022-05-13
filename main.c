@@ -1,6 +1,6 @@
 #include "monty.h"
 
-global_t global = {NULL, NULL, NULL, NULL, 1, -1};
+global_t global = {NULL, NULL, NULL, NULL, 1, -1, 1};
 
 /**
  * choose_option - Find if the flag match with an existence and
@@ -29,10 +29,8 @@ void (*choose_option(char **tokens))(stack_t **, unsigned int)
 		{"pstr", pstr},
 		{"rotl", rotl},
 		{"rotr", rotr},
-		/*
-		 *{"stack", stack},
-		 *{"queue", queue},
-		*/
+		{"stack", stack},
+		{"queue", queue},
 		{NULL, NULL}
 	};
 	int i = 0;

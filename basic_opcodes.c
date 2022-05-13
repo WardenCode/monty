@@ -42,7 +42,11 @@ void push(stack_t **stack, unsigned int line_number)
 	if (is_a_num(global.tokens[1]))
 	{
 		num = atoi(global.tokens[1]);
-		new_node = add_dnodeint_end(stack, num);
+		if (global.is_stack == 1)
+			new_node = add_dnodeint_end(stack, num);
+		else
+			new_node = add_dnodeint(stack, num);
+
 		if (!new_node)
 		{
 			dprintf(STDERR_FILENO, "Error: malloc failed\n");
