@@ -41,13 +41,14 @@ void rotl(stack_t **stack, unsigned int line_number)
 {
 	stack_t *tmp = *stack;
 	int final = 0;
+	(void)line_number;
 
 	if (*stack && global.quantity > 0)
 	{
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		final = tmp->n;
-		pop(stack, line_number);
+		delete_dnodeint_at_index(stack, global.quantity);
 		add_dnodeint(stack, final);
 	}
 }
