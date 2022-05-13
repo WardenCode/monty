@@ -18,7 +18,7 @@ void pstr(stack_t **stack, unsigned int line_number)
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 
-		while (tmp->prev != NULL)
+		while (tmp != NULL)
 		{
 			if (!__isascii(tmp->n) || tmp->n == 0)
 				break;
