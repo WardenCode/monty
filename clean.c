@@ -66,6 +66,12 @@ char **tokenizer(char *input)
 	while (token != NULL)
 	{
 		tokens[i] = strdup(token);
+		if (!tokens[i])
+		{
+			dprintf(STDERR_FILENO, "Error: malloc failed\n");
+			free_cases(0);
+			exit(EXIT_FAILURE);
+		}
 		token = strtok(NULL, " \n\t");
 		i++;
 	}
