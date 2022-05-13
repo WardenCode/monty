@@ -20,7 +20,7 @@ void pstr(stack_t **stack, unsigned int line_number)
 
 		while (tmp->prev != NULL)
 		{
-			if (tmp->n > 127 || tmp->n <= 0)
+			if (!__isascii(tmp->n) || tmp->n == 0)
 				break;
 			printf("%c", tmp->n);
 			tmp = tmp->prev;
